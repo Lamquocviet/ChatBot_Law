@@ -1,0 +1,216 @@
+Q: BHYT là gì?
+A: BHYT là hình thức bảo hiểm bắt buộc do Nhà nước tổ chức để chi trả một phần hoặc toàn bộ chi phí khám chữa bệnh cho người tham gia theo phạm vi quyền lợi quy định. :contentReference[oaicite:16]{index=16}
+
+---
+Q: Ai là đối tượng phải tham gia BHYT?
+A: Đối tượng gồm nhiều nhóm: (1) nhóm do người sử dụng lao động đóng hoặc cùng đóng; (2) nhóm do cơ quan BHXH đóng; (3) nhóm do ngân sách nhà nước đóng; (4) nhóm được ngân sách hỗ trợ mức đóng; (5) nhóm tự đóng (hộ gia đình). Chi tiết các trường hợp được nêu tại Điều 12. :contentReference[oaicite:17]{index=17}
+
+---
+Q: Mức đóng BHYT được tính trên căn cứ nào?
+A: Mức đóng được xác định theo tỷ lệ phần trăm của tiền lương làm căn cứ đóng BHXH (tiền lương tháng), tiền lương hưu, trợ cấp hoặc mức tham chiếu, tùy nhóm đối tượng. :contentReference[oaicite:18]{index=18}
+
+---
+Q: Hộ gia đình tham gia BHYT được giảm trừ thế nào?
+A: Trong hộ gia đình, người thứ nhất đóng tối đa 6% mức tham chiếu; người thứ hai, thứ ba, thứ tư đóng lần lượt bằng 70%, 60%, 50% mức đóng của người thứ nhất; từ người thứ năm trở đi đóng bằng 40% mức đóng của người thứ nhất. :contentReference[oaicite:19]{index=19}
+
+---
+Q: Phạm vi được hưởng BHYT bao gồm những gì?
+A: Phạm vi gồm khám bệnh, chữa bệnh (kể cả từ xa), phục hồi chức năng, thuốc, dịch vụ kỹ thuật y tế, thiết bị, máu và chế phẩm máu, vận chuyển người bệnh theo quy định. Bộ Y tế và Chính phủ quy định chi tiết danh mục và tỷ lệ thanh toán. :contentReference[oaicite:20]{index=20}
+
+---
+Q: Người tham gia được hưởng mức 100% trong trường hợp nào?
+A: Một số trường hợp được hưởng 100% gồm: các đối tượng do ngân sách nhà nước đóng quy định tại khoản 3 Điều 12 (danh sách cụ thể), khám tại cơ sở tuyến ban đầu, khám nội trú tại cơ sở cấp cơ bản, hoặc một số hoàn cảnh cấp cứu/đặc biệt theo quy định. :contentReference[oaicite:21]{index=21}
+
+---
+Q: Khám trái tuyến thì được hưởng thế nào?
+A: Nếu tự đi khám trái tuyến, mức hưởng phụ thuộc vào quy định: một số trường hợp vẫn hưởng 100% (ví dụ người dân tộc thiểu số, hộ nghèo ở vùng khó khăn khi nội trú ở cơ sở chuyên sâu), các trường hợp khác được hưởng một tỷ lệ phần trăm theo lộ trình do Chính phủ quy định. :contentReference[oaicite:22]{index=22}
+
+---
+Q: Trẻ em dưới 6 tuổi có thẻ BHYT sử dụng được đến khi nào?
+A: Thẻ BHYT của trẻ dưới 6 tuổi có giá trị sử dụng đến khi trẻ đủ 72 tháng tuổi; nếu chưa đến kỳ nhập học thì có giá trị đến ngày 30/9 của năm đó. :contentReference[oaicite:23]{index=23}
+
+---
+Q: Thẻ BHYT bị mất thì thủ tục cấp lại thế nào?
+A: Người bị mất thẻ nộp đơn đề nghị cấp lại. Cơ quan bảo hiểm xã hội cấp lại thẻ trong thời hạn 7 ngày làm việc kể từ ngày nhận đủ hồ sơ; trong thời gian chờ, người vẫn được hưởng quyền lợi BHYT. :contentReference[oaicite:24]{index=24}
+
+---
+Q: Những trường hợp nào không được hưởng BHYT?
+A: Một số trường hợp không được hưởng: khám sức khỏe định kỳ, dịch vụ thẩm mỹ, một số kỹ thuật hỗ trợ sinh sản, điều dưỡng/an dưỡng, một số thiết bị thay thế (như răng giả, kính mắt) và các trường hợp khác theo Điều 23. :contentReference[oaicite:25]{index=25}
+
+---
+Q: Cơ quan nào quản lý quỹ BHYT?
+A: Quỹ BHYT được quản lý tập trung, công khai; Hội đồng quản lý bảo hiểm xã hội và cơ quan bảo hiểm xã hội chịu trách nhiệm quản lý, sử dụng quỹ; Chính phủ quy định chi tiết. 
+
+---
+Q: Phương thức thanh toán chi phí KCB BHYT gồm những gì?
+A: Ba phương thức chính: thanh toán theo định suất, theo giá dịch vụ, và theo nhóm chẩn đoán; Chính phủ quy định chi tiết áp dụng. 
+
+---
+Q: Khi nào BHYT thanh toán trực tiếp cho người có thẻ?
+A: BHYT thanh toán trực tiếp cho người có thẻ trong các trường hợp như cơ sở KCB không có hợp đồng BHYT, KCB không đúng quy định tại Điều 28, hoặc trường hợp đặc biệt do Chính phủ quy định. 
+
+---
+Q: Quỹ BHYT được hình thành từ nguồn nào?
+A: Từ tiền đóng BHYT, tiền sinh lời đầu tư quỹ, tài trợ/viện trợ và các nguồn thu hợp pháp khác. 
+
+---
+Q: Làm sao để đăng ký nơi khám chữa bệnh BHYT ban đầu?
+A: Người tham gia được đăng ký tại cơ sở khám chữa bệnh cấp ban đầu hoặc cấp cơ bản; có quyền thay đổi nơi đăng ký trong 15 ngày đầu mỗi quý; Bộ Y tế quy định chi tiết thủ tục. 
+
+---
+Q: Thẻ BHYT khi nào không có giá trị sử dụng?
+A: Thẻ hết hạn, thẻ bị sửa chữa/tẩy xóa, hoặc người trong thẻ không còn tham gia BHYT thì thẻ không còn giá trị. :contentReference[oaicite:31]{index=31}
+
+---
+Q: Quy định về tạm ứng thanh toán cho cơ sở KCB BHYT như thế nào?
+A: Cơ quan BHXH tạm ứng hằng quý: trong 5 ngày làm việc kể từ báo cáo quyết toán quý trước, tạm ứng 90% chi phí theo quyết toán quý trước; có quy trình cho cơ sở mới ký hợp đồng. 
+Q: Người nước ngoài cư trú tại Việt Nam có phải tham gia BHYT không?
+A: Có. Người nước ngoài cư trú hợp pháp tại Việt Nam và thuộc đối tượng tham gia BHYT theo Điều 12 thì phải tham gia BHYT như công dân Việt Nam.
+
+---
+Q: Người có hai thẻ BHYT cùng lúc được hưởng quyền lợi thế nào?
+A: Nếu một người có hai thẻ, quyền lợi được tính theo thẻ có mức hưởng cao hơn; không được thanh toán trùng lặp.
+
+---
+Q: Khi chuyển nơi làm việc, thẻ BHYT còn hiệu lực có phải đổi không?
+A: Không bắt buộc đổi thẻ. Nhưng người dùng cần thay đổi nơi đăng ký khám chữa bệnh ban đầu nếu muốn.
+
+---
+Q: Người thất nghiệp có tiếp tục hưởng BHYT không?
+A: Nếu chấm dứt HĐLĐ và không còn đóng BHYT theo nhóm bắt buộc, quyền lợi thẻ BHYT chấm dứt theo hạn ghi trên thẻ; sau đó cần tham gia theo nhóm hộ gia đình để tiếp tục có thẻ.
+
+---
+Q: BHYT có chi trả khám bệnh từ xa không?
+A: Có. Khám chữa bệnh từ xa thuộc phạm vi hưởng nếu Bộ Y tế quy định trong danh mục và cơ sở thực hiện theo đúng chuyên môn.
+
+---
+Q: Trong trường hợp cấp cứu, đi trái tuyến có bị giảm mức hưởng không?
+A: Không. Cấp cứu được hưởng như đúng tuyến; sau khi ổn định phải chuyển tuyến theo quy định.
+
+---
+Q: Người nghèo được hưởng BHYT như thế nào?
+A: Nhóm hộ nghèo được ngân sách Nhà nước đóng 100% mức đóng và hưởng mức chi trả 100% trong nhiều trường hợp theo luật.
+
+---
+Q: Có được đổi nơi đăng ký KCB ban đầu bất kỳ lúc nào không?
+A: Không. Việc đổi nơi đăng ký chỉ được thực hiện trong 15 ngày đầu mỗi quý hoặc khi có lý do chính đáng.
+
+---
+Q: Nếu thẻ sai thông tin cá nhân thì giải quyết ra sao?
+A: Người tham gia nộp yêu cầu điều chỉnh thông tin; cơ quan BHXH có trách nhiệm cấp đổi thẻ trong 7 ngày.
+
+---
+Q: BHYT có chi trả thuốc theo yêu cầu riêng không?
+A: Không. Chỉ thuốc nằm trong danh mục do Bộ Y tế ban hành và chỉ định hợp lý thì mới được thanh toán.
+
+---
+Q: Có phải xuất trình thẻ BHYT bản gốc mới được hưởng quyền lợi không?
+A: Không bắt buộc bản giấy. Có thể dùng thẻ điện tử, CCCD gắn chip, VNeID mức 2 hoặc mã QR BHYT.
+
+---
+Q: Nghỉ thai sản có bị gián đoạn quyền lợi BHYT không?
+A: Không. Trong thời gian nghỉ thai sản, người lao động vẫn được đóng BHYT và hưởng liên tục.
+
+---
+Q: BHYT có chi trả khám sức khỏe tổng quát không?
+A: Không. Khám sức khỏe định kỳ, khám để xin giấy tờ hành chính hoặc tuyển dụng không thuộc phạm vi hưởng.
+
+---
+Q: BHYT có chi trả dịch vụ thẩm mỹ không?
+A: Không. Các dịch vụ mang tính thẩm mỹ không nằm trong phạm vi chi trả.
+
+---
+Q: Người trên 80 tuổi được hưởng quyền lợi gì khi khám BHYT?
+A: Vẫn hưởng theo nhóm đối tượng tham gia. Nếu thuộc nhóm ngân sách Nhà nước đóng thì được hưởng 100%.
+
+---
+Q: Phẫu thuật theo yêu cầu bác sĩ hay chọn phòng dịch vụ có được thanh toán không?
+A: Các phần dịch vụ cao cấp, yêu cầu riêng không thuộc phạm vi BHYT, người bệnh tự chi trả.
+
+---
+Q: Có được hưởng BHYT khi khám tại phòng khám tư nhân?
+A: Chỉ được hưởng nếu phòng khám đó có ký hợp đồng KCB BHYT với cơ quan BHXH.
+
+---
+Q: BHYT có chi trả nội soi theo yêu cầu không?
+A: Nếu nội soi chuyên môn theo chỉ định thì được hưởng; nếu là nội soi theo yêu cầu dịch vụ riêng thì không.
+
+---
+Q: Khi mất thẻ trước ngày phẫu thuật, phải làm gì?
+A: Xin cấp lại thẻ BHYT hoặc dùng CCCD/VNeID để xác thực; vẫn được hưởng quyền lợi.
+
+---
+Q: Người hiến tạng có được BHYT chi trả điều trị liên quan không?
+A: BHYT chi trả chi phí điều trị liên quan đến hiến, lấy, ghép theo quy định của Bộ Y tế.
+
+---
+Q: Người mắc bệnh mãn tính có được khám BHYT nhiều lần không?
+A: Có. Người bệnh mãn tính được khám, theo dõi định kỳ theo phác đồ, được BHYT chi trả trong phạm vi quy định.
+
+---
+Q: Thẻ BHYT có hiệu lực ngay sau khi đóng không?
+A: Tùy nhóm. Hộ gia đình thường có thời gian chờ 30 ngày kể từ ngày đóng. Nhóm khác có hiệu lực ngay.
+
+---
+Q: Người hết hạn tạm trú có bị mất quyền lợi BHYT không?
+A: Không ảnh hưởng nếu vẫn thuộc nhóm đối tượng tham gia và thẻ còn hạn.
+
+---
+Q: BHYT có chi trả điều trị tâm thần không?
+A: Có. Điều trị tâm thần thuộc phạm vi hưởng nếu theo đúng chuyên môn và danh mục.
+
+---
+Q: Trong trường hợp bệnh viện hết thuốc, BHYT có thanh toán thuốc mua ngoài không?
+A: Được thanh toán theo quy định nhưng phải có chỉ định hợp lệ và hóa đơn đúng chuẩn.
+
+---
+Q: Có được dùng thẻ BHYT của người khác không?
+A: Không. Sử dụng thẻ BHYT của người khác là hành vi vi phạm pháp luật, bị xử lý.
+
+---
+Q: Người nghiện ma túy có được hưởng BHYT khi điều trị không?
+A: Khám chữa bệnh thông thường vẫn được hưởng; điều trị cai nghiện bắt buộc không thuộc phạm vi hưởng.
+
+---
+Q: Trường hợp nào được thanh toán 100% cả ngoại trú lẫn nội trú?
+A: Một số nhóm đặc biệt như người có công, hộ nghèo, dân tộc thiểu số ở vùng khó khăn... theo Điều 14.
+
+---
+Q: BHYT có chi trả kỹ thuật cao, chi phí lớn không?
+A: Có, nếu kỹ thuật nằm trong danh mục Bộ Y tế ban hành và đúng chỉ định điều trị.
+
+---
+Q: Chi phí vận chuyển có được thanh toán không?
+A: Có, với một số đối tượng (như người nghèo, dân tộc thiểu số, đối tượng chính sách) khi chuyển tuyến theo yêu cầu chuyên môn.
+
+---
+Q: Người đi học xa nhà có được đổi nơi khám chữa bệnh không?
+A: Có. Học sinh, sinh viên được đăng ký KCB ban đầu tại nơi đang học.
+
+---
+Q: Thai phụ khám trái tuyến có được hưởng quyền lợi?
+A: Được hưởng theo mức trái tuyến hoặc đúng tuyến tùy trường hợp cấp cứu hoặc chuyển tuyến.
+
+---
+Q: Chi phí giường bệnh theo yêu cầu có được thanh toán không?
+A: Không. Các dịch vụ theo yêu cầu, phòng dịch vụ không thuộc phạm vi BHYT.
+
+---
+Q: Người tham gia BHYT bao lâu thì được hưởng quyền lợi bảo hiểm?
+A: Đa số nhóm được hưởng ngay; nhóm hộ gia đình có thời gian chờ 30 ngày trừ trường hợp cấp cứu.
+
+---
+Q: Khám định kỳ cho trẻ em có được BHYT thanh toán không?
+A: Không. Khám định kỳ là dịch vụ ngoài phạm vi BHYT.
+
+---
+Q: BHYT có chi trả kính mắt hoặc răng sứ không?
+A: Không. Đây là vật dụng thay thế, thẩm mỹ, không thuộc phạm vi thanh toán.
+
+---
+Q: Người dân tộc thiểu số có hưởng ưu tiên gì trong BHYT?
+A: Nhiều trường hợp được hưởng 100% chi phí, bao gồm cả khi điều trị trái tuyến nội trú.
+
+---
+Q: Điều trị COVID-19 có được thanh toán BHYT không?
+A: Việc chi trả tuân theo quy định từng thời kỳ; điều trị các bệnh đi kèm vẫn được BHYT thanh toán.

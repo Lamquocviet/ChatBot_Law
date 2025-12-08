@@ -1,0 +1,233 @@
+from dotenv import load_dotenv
+from langchain_core.documents import Document
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+import requests
+import os
+import re
+from sentence_transformers import SentenceTransformer
+from pinecone import Pinecone, ServerlessSpec
+import warnings
+warnings.filterwarnings('ignore')
+
+load_dotenv()
+PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
+
+
+class RAG:
+    def __init__(self, data_folder="data/luatbhyt"):
+        print("[DEBUG] Khởi tạo RAG...")
+
+        self.data_folder = data_folder
+        print("[DEBUG] Load model embedding...")
+        self.vector_model = SentenceTransformer("all-MiniLM-L6-v2")
+
+        self.pinecone = Pinecone(api_key=PINECONE_API_KEY)
+        self.index_name = "my-vector-db"
+
+        print("[DEBUG] Kiểm tra index Pinecone...")
+        if self.index_name not in self.pinecone.list_indexes().names():
+            print("[DEBUG] Index chưa có → tạo mới...")
+            self.pinecone.create_index(
+                name=self.index_name,
+                dimension=384,
+                metric="cosine",
+                spec=ServerlessSpec(cloud="aws", region="us-east-1"),
+            )
+        else:
+            print("[DEBUG] Index đã tồn tại.")
+
+        self.index = self.pinecone.Index(self.index_name)
+        print("[DEBUG] Kết nối Pinecone OK.")
+
+        self.context = []
+
+
+    # ======================
+    #    TÌM ĐIỀU LUẬT RAW
+    # ======================
+    def search_raw_article(self, query):
+        print("[DEBUG] Kiểm tra yêu cầu có chứa 'Điều X' hay không...")
+
+        match = re.search(r"điều\s+(\d+)", query.lower())
+        if not match:
+            print("[DEBUG] Không tìm thấy pattern Điều X")
+            return None
+
+        article_number = int(match.group(1))
+        target = f"điều {article_number}".lower()
+        print(f"[DEBUG] Cần tìm: {target}")
+
+        law_path = os.path.join(self.data_folder, "law.txt")
+
+        if not os.path.exists(law_path):
+            print("[DEBUG] KHÔNG TÌM THẤY FILE law.txt!!!")
+            return None
+
+        with open(law_path, "r", encoding="utf-8") as f:
+            full_text = f.read().lower()
+
+        idx = full_text.find(target)
+        if idx == -1:
+            print("[DEBUG] Không tìm thấy Điều trong văn bản")
+            return None
+
+        # tìm Điều tiếp theo
+        next_match = re.search(rf"điều\s+{article_number + 1}\b", full_text[idx:])
+        end = idx + next_match.start() if next_match else idx + 2500
+
+        print("[DEBUG] Tìm thấy Điều, trả về raw text (không qua RAG)")
+        return full_text[idx:end].strip()
+
+
+    # ======================
+    #      Đọc file TXT
+    # ======================
+    def read_text(self, filepath):
+        print(f"[DEBUG] Đọc file: {filepath}")
+        with open(filepath, "r", encoding="utf-8") as f:
+            text = f.read()
+        print(f"[DEBUG] Độ dài văn bản: {len(text)} ký tự")
+        return text, os.path.basename(filepath)
+
+
+    # ======================
+    #    Chunk văn bản
+    # ======================
+    def text_to_docs(self, text, filename):
+        print(f"[DEBUG] Chia chunk cho file: {filename}")
+
+        if isinstance(text, str):
+            text = [text]
+
+        page_docs = [Document(page_content=page) for page in text]
+        for i, doc in enumerate(page_docs):
+            doc.metadata["page"] = i + 1
+
+        doc_chunks = []
+
+        splitter = RecursiveCharacterTextSplitter(
+            chunk_size=1500,
+            chunk_overlap=200,
+            separators=["\n\n", "\n", ".", "!", "?", ",", " ", ""]
+        )
+
+        for doc in page_docs:
+            chunks = splitter.split_text(doc.page_content)
+            print(f"[DEBUG] Tổng chunk tạo ra: {len(chunks)}")
+
+            for i, chunk in enumerate(chunks):
+                new_doc = Document(
+                    page_content=chunk,
+                    metadata={
+                        "page": doc.metadata["page"],
+                        "chunk": i,
+                        "filename": filename
+                    }
+                )
+                new_doc.metadata["source"] = f"{new_doc.metadata['page']}-{new_doc.metadata['chunk']}"
+                doc_chunks.append(new_doc)
+
+        return doc_chunks
+
+
+    # ======================
+    #    Index Pinecone
+    # ======================
+    def docs_to_index(self, docs):
+        print(f"[DEBUG] Bắt đầu index {len(docs)} chunk...")
+        for i, doc in enumerate(docs):
+            if i % 20 == 0:
+                print(f"[DEBUG] ...indexing chunk {i}/{len(docs)}")
+
+            embedding = self.vector_model.encode([doc.page_content])[0].tolist()
+
+            metadata = {
+                "page": doc.metadata["page"],
+                "chunk": doc.metadata["chunk"],
+                "filename": doc.metadata["filename"],
+                "text": doc.page_content,
+            }
+
+            self.index.upsert(
+                vectors=[(doc.metadata["source"], embedding, metadata)]
+            )
+
+        print("[DEBUG] Indexing hoàn tất!")
+
+
+    # ======================
+    #    Tạo vector DB
+    # ======================
+    def create_vectordb(self):
+        print("[DEBUG] Tạo vector DB từ thư mục:", self.data_folder)
+        documents = []
+
+        for file in os.listdir(self.data_folder):
+            if file.endswith(".txt"):
+                print(f"[DEBUG] → Xử lý file: {file}")
+                full_path = os.path.join(self.data_folder, file)
+                text, filename = self.read_text(full_path)
+                docs = self.text_to_docs(text, filename)
+                documents.extend(docs)
+
+        print(f"[DEBUG] Tổng số doc chunk: {len(documents)}")
+        self.docs_to_index(documents)
+
+
+    # ======================
+    #       Truy vấn
+    # ======================
+    def retrieve_relevant_docs(self, query, top_k=5, threshold=0.35):
+        print(f"[DEBUG] Truy vấn: {query}")
+        embedding = self.vector_model.encode([query])[0].tolist()
+        res = self.index.query(vector=embedding, top_k=top_k, include_metadata=True)
+
+        print("[DEBUG] Kết quả top-k:", len(res["matches"]))
+
+        matches = [m for m in res["matches"] if m["score"] >= threshold]
+        print(f"[DEBUG] Sau threshold {threshold}: còn {len(matches)} kết quả")
+
+        return matches
+
+
+    # ======================
+    #      Generate answer
+    # ======================
+    def generate_response(self, query):
+        print("[DEBUG] Gọi generate_response()")
+
+        # ƯU TIÊN trả về raw Điều X
+        raw_article = self.search_raw_article(query)
+        if raw_article:
+            return raw_article
+
+        # Ngược lại → dùng RAG
+        docs = self.retrieve_relevant_docs(query)
+        context = " ".join([d["metadata"]["text"] for d in docs])
+
+        print(f"[DEBUG] Độ dài context gửi vào model: {len(context)}")
+
+        input_text = f"""
+            Bạn là chuyên gia rất am hiểu về Luật BHYT. Dựa trên Ngữ cảnh được cung cấp bên dưới, trả lời câu hỏi chính xác và ngắn gọn.
+            BẮT BUỘC phải trích dẫn điều luật chính xác nếu có trong ngữ cảnh.
+            Ngữ cảnh: {context}
+            Câu hỏi: {query}
+        """
+
+        payload = {
+            "model": "llama3.1",
+            "prompt": input_text,
+            "context": self.context,
+            "stream": False,
+        }
+
+        print("[DEBUG] Gửi request tới Ollama...")
+        response = requests.post(
+            url="http://localhost:11434/api/generate", 
+            json=payload
+        ).json()
+
+        print("[DEBUG] Nhận phản hồi từ model!")
+
+        self.context = response["context"]
+        return response["response"]

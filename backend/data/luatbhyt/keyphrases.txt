@@ -1,0 +1,38 @@
+bảo hiểm y tế
+quỹ bảo hiểm y tế
+mức đóng bảo hiểm y tế
+mức hưởng bảo hiểm y tế
+mức tham chiếu
+đối tượng tham gia bảo hiểm y tế
+đăng ký khám chữa bệnh ban đầu
+khám chữa bệnh đúng tuyến
+khám chữa bệnh trái tuyến
+thẻ bảo hiểm y tế
+cấp phát thẻ BHYT
+cấp lại thẻ BHYT
+đổi thẻ BHYT
+thu hồi thẻ BHYT
+phạm vi được hưởng
+danh mục thuốc BHYT
+chi phí khám chữa bệnh
+thanh toán theo định suất
+thanh toán theo giá dịch vụ
+thanh toán theo nhóm chẩn đoán
+giám định bảo hiểm y tế
+quản lý quỹ BHYT
+phân bổ quỹ bảo hiểm y tế
+quỹ dự phòng BHYT
+trường hợp không được hưởng
+điều kiện hưởng 100% BHYT
+ưu đãi ngân sách nhà nước
+hộ gia đình tham gia BHYT
+mức hỗ trợ đóng
+thanh toán nội trú ngoại trú
+vận chuyển người bệnh
+thủ tục cấp thẻ
+thời hạn sử dụng thẻ
+giám định chi phí KCB
+hợp đồng KCB BHYT
+cơ sở khám chữa bệnh bảo hiểm y tế
+đăng ký nơi khám chữa bệnh ban đầu
+thủ tục chuyển người bệnh

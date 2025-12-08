@@ -1,0 +1,29 @@
+Bảo hiểm y tế (BHYT): Hình thức bảo hiểm bắt buộc do Nhà nước tổ chức, nhằm chi trả chi phí khám chữa bệnh cho người tham gia. :contentReference[oaicite:1]{index=1}
+
+Bảo hiểm y tế toàn dân: Trạng thái mà các đối tượng quy định trong Luật đều tham gia bảo hiểm y tế. :contentReference[oaicite:2]{index=2}
+
+Quỹ bảo hiểm y tế: Quỹ tài chính được hình thành từ nguồn đóng BHYT, thu hợp pháp khác và tiền sinh lời đầu tư, dùng để chi trả chi phí khám chữa bệnh và các chi phí hợp pháp liên quan. :contentReference[oaicite:3]{index=3}
+
+Người tham gia BHYT: Cá nhân hoặc nhóm đối tượng được quy định trong Điều 12 (nhóm do người sử dụng đóng/cùng đóng, do cơ quan bảo hiểm xã hội đóng, do ngân sách nhà nước đóng, nhóm tự đóng, nhóm được hỗ trợ). :contentReference[oaicite:4]{index=4}
+
+Mức đóng: Tỷ lệ phần trăm dùng để tính tiền đóng BHYT, căn cứ trên tiền lương/tiền trợ cấp/mức tham chiếu theo quy định. :contentReference[oaicite:5]{index=5}
+
+Mức tham chiếu: Mức tiền do Chính phủ quyết định để làm căn cứ tính một số mức đóng, mức hưởng trong Luật. :contentReference[oaicite:6]{index=6}
+
+Mức hưởng: Tỷ lệ chi phí khám chữa bệnh mà quỹ BHYT thanh toán cho người tham gia tùy đối tượng, tuyến khám và hoàn cảnh (ví dụ: 100%, 95%, 80%, 40%). :contentReference[oaicite:7]{index=7}
+
+Cơ sở khám chữa bệnh BHYT ban đầu: Cơ sở khám chữa bệnh theo đăng ký ban đầu trên thẻ BHYT, nơi người tham gia thực hiện khám chữa bệnh ban đầu. :contentReference[oaicite:8]{index=8}
+
+Đúng tuyến / Trái tuyến: Khái niệm chỉ việc người tham gia khám tại cơ sở theo đăng ký (đúng tuyến) hoặc không theo đăng ký/chưa chuyển tuyến đúng thủ tục (trái tuyến); mức hưởng có thể khác nhau. :contentReference[oaicite:9]{index=9}
+
+Thẻ bảo hiểm y tế: Giấy/tài liệu (bản giấy hoặc bản điện tử) có mã số BHYT, làm căn cứ hưởng quyền lợi BHYT. :contentReference[oaicite:10]{index=10}
+
+Giám định bảo hiểm y tế: Hoạt động do cơ quan bảo hiểm xã hội tiến hành nhằm đánh giá tính hợp lý của dịch vụ y tế để làm cơ sở thanh toán. :contentReference[oaicite:11]{index=11}
+
+Phạm vi được hưởng: Danh mục dịch vụ, thuốc, kỹ thuật, dụng cụ, vận chuyển... do Bộ Y tế/Chính phủ quy định thuộc phạm vi thanh toán của quỹ BHYT. :contentReference[oaicite:12]{index=12}
+
+Thanh toán chi phí KCB BHYT: Cơ chế thanh toán giữa cơ quan bảo hiểm xã hội và cơ sở khám chữa bệnh (định suất, giá dịch vụ, nhóm chẩn đoán), hoặc trực tiếp với người có thẻ trong một số trường hợp. 
+
+Quản lý quỹ: Nguyên tắc quản lý tập trung, công khai, minh bạch; phân bổ % quỹ cho khám chữa bệnh và quỹ dự phòng. 
+
+Trường hợp không được hưởng: Những dịch vụ và hoàn cảnh Luật liệt kê là không thuộc phạm vi chi trả BHYT (ví dụ: dịch vụ thẩm mỹ, khám sức khỏe, thí nghiệm lâm sàng,...). :contentReference[oaicite:15]{index=15}
