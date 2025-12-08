@@ -1,8 +1,4 @@
-# RAG Chatbot - Luật Bảo Hiểm Y Tế 🏥⚖️
 
-Một ứng dụng chatbot AI thông minh được xây dựng với công nghệ **Retrieval-Augmented Generation (RAG)** để cung cấp tư vấn pháp lý về Luật Bảo hiểm y tế Việt Nam.
-
-## 🎯 Tính Năng
 
 - **Chatbot thông minh**: Trả lời các câu hỏi về Luật Bảo hiểm y tế
 - **RAG (Retrieval-Augmented Generation)**: Kết hợp tìm kiếm vector và trí tuệ nhân tạo
@@ -375,3 +371,6 @@ Project này được phát triển cho mục đích giáo dục.
 ---
 
 **Happy Chatting!** 🚀
+=======
+# ChatBot
+
