@@ -5,6 +5,7 @@ Provides REST API endpoints for frontend communication
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from processing import RAG
+import threading
 import os
 from dotenv import load_dotenv
 import logging
@@ -40,10 +41,15 @@ def initialize_rag():
     try:
         logger.info("Initializing RAG system...")
         rag_instance = RAG()
-        logger.info("Creating Vector DB...")
-        rag_instance.create_vectordb()
+        # Do NOT automatically re-index on startup (very slow).
+        # Indexing should be triggered manually via /api/index or by setting
+        # environment variable FORCE_INDEX=true for dev workflows.
+        if os.getenv('FORCE_INDEX', 'false').lower() == 'true':
+            logger.info("FORCE_INDEX enabled — creating Vector DB now...")
+            rag_instance.create_vectordb()
+
         initialization_done = True
-        logger.info("RAG system initialized successfully!")
+        logger.info("RAG system initialized (indexing skipped by default).")
         return rag_instance
     except Exception as e:
         logger.error(f"Error initializing RAG: {str(e)}")
@@ -97,6 +103,28 @@ def initialize():
         'status': 'success',
         'message': 'RAG system initialized successfully'
     })
+
+
+@app.route('/api/index', methods=['POST'])
+def trigger_index():
+    """Trigger vector DB creation (indexing) in background."""
+    global initialization_done
+
+    if not initialization_done:
+        return jsonify({'status': 'error', 'message': 'RAG not initialized'}), 503
+
+    def _run_index():
+        try:
+            logger.info('Background indexing started')
+            rag_instance.create_vectordb()
+            logger.info('Background indexing finished')
+        except Exception as e:
+            logger.error(f'Indexing error: {e}')
+
+    thread = threading.Thread(target=_run_index, daemon=True)
+    thread.start()
+
+    return jsonify({'status': 'accepted', 'message': 'Indexing started in background'})
 
 
 @app.route('/api/chat', methods=['POST'])
