@@ -6,6 +6,9 @@ import os
 import re
 from sentence_transformers import SentenceTransformer
 from pinecone import Pinecone, ServerlessSpec
+from collections import OrderedDict
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -41,6 +44,30 @@ class RAG:
 
         self.context = []
 
+        # HTTP session reused for model requests (connection pooling + retries)
+        self.http = requests.Session()
+        retries = Retry(total=3, backoff_factor=0.3, status_forcelist=(500, 502, 504))
+        adapter = HTTPAdapter(max_retries=retries)
+        self.http.mount("http://", adapter)
+        self.http.mount("https://", adapter)
+
+        # Simple in-memory LRU cache for query embeddings/results
+        self._embed_cache = OrderedDict()
+        self._embed_cache_max = 128
+        # Simple in-memory LRU cache for full query -> response
+        self._response_cache = OrderedDict()
+        self._response_cache_max = 256
+
+        # Load law text once to speed up raw article search
+        law_path = os.path.join(self.data_folder, "law.txt")
+        self._law_text = None
+        if os.path.exists(law_path):
+            try:
+                with open(law_path, "r", encoding="utf-8") as f:
+                    self._law_text = f.read().lower()
+            except Exception:
+                self._law_text = None
+
 
     # ======================
     #    TÌM ĐIỀU LUẬT RAW
@@ -57,14 +84,16 @@ class RAG:
         target = f"điều {article_number}".lower()
         print(f"[DEBUG] Cần tìm: {target}")
 
-        law_path = os.path.join(self.data_folder, "law.txt")
-
-        if not os.path.exists(law_path):
-            print("[DEBUG] KHÔNG TÌM THẤY FILE law.txt!!!")
-            return None
-
-        with open(law_path, "r", encoding="utf-8") as f:
-            full_text = f.read().lower()
+        # Use cached law text if available
+        if self._law_text:
+            full_text = self._law_text
+        else:
+            law_path = os.path.join(self.data_folder, "law.txt")
+            if not os.path.exists(law_path):
+                print("[DEBUG] KHÔNG TÌM THẤY FILE law.txt!!!")
+                return None
+            with open(law_path, "r", encoding="utf-8") as f:
+                full_text = f.read().lower()
 
         idx = full_text.find(target)
         if idx == -1:
@@ -135,8 +164,10 @@ class RAG:
     # ======================
     def docs_to_index(self, docs):
         print(f"[DEBUG] Bắt đầu index {len(docs)} chunk...")
+        batch = []
+        batch_size = 50
         for i, doc in enumerate(docs):
-            if i % 20 == 0:
+            if i % 100 == 0:
                 print(f"[DEBUG] ...indexing chunk {i}/{len(docs)}")
 
             embedding = self.vector_model.encode([doc.page_content])[0].tolist()
@@ -148,9 +179,14 @@ class RAG:
                 "text": doc.page_content,
             }
 
-            self.index.upsert(
-                vectors=[(doc.metadata["source"], embedding, metadata)]
-            )
+            batch.append((doc.metadata["source"], embedding, metadata))
+
+            if len(batch) >= batch_size:
+                self.index.upsert(vectors=batch)
+                batch = []
+
+        if batch:
+            self.index.upsert(vectors=batch)
 
         print("[DEBUG] Indexing hoàn tất!")
 
@@ -177,9 +213,19 @@ class RAG:
     # ======================
     #       Truy vấn
     # ======================
-    def retrieve_relevant_docs(self, query, top_k=5, threshold=0.35):
+    def retrieve_relevant_docs(self, query, top_k=3, threshold=0.35):
         print(f"[DEBUG] Truy vấn: {query}")
-        embedding = self.vector_model.encode([query])[0].tolist()
+        # Use simple LRU cache for embeddings to avoid recomputing identical queries
+        if query in self._embed_cache:
+            embedding = self._embed_cache.pop(query)
+            # move to end to mark as most recently used
+            self._embed_cache[query] = embedding
+        else:
+            embedding = self.vector_model.encode([query])[0].tolist()
+            self._embed_cache[query] = embedding
+            if len(self._embed_cache) > self._embed_cache_max:
+                self._embed_cache.popitem(last=False)
+
         res = self.index.query(vector=embedding, top_k=top_k, include_metadata=True)
 
         print("[DEBUG] Kết quả top-k:", len(res["matches"]))
@@ -202,8 +248,26 @@ class RAG:
             return raw_article
 
         # Ngược lại → dùng RAG
+        # Check response cache first to return instantly for repeated queries
+        if query in self._response_cache:
+            resp = self._response_cache.pop(query)
+            # mark as recently used
+            self._response_cache[query] = resp
+            print("[DEBUG] Trả về từ response cache")
+            return resp
+
         docs = self.retrieve_relevant_docs(query)
-        context = " ".join([d["metadata"]["text"] for d in docs])
+
+        # If top match is very confident, return the source text directly
+        if docs and len(docs) > 0 and docs[0].get("score", 0) >= 0.82:
+            print("[DEBUG] High-confidence match found — returning source snippet without calling LLM")
+            return docs[0]["metadata"]["text"]
+        # Join only top docs' text and truncate to a reasonable size to
+        # avoid sending huge payloads to the model which slows responses.
+        context = " ".join([d["metadata"]["text"] for d in docs[:5]])
+        max_context_chars = 3500
+        if len(context) > max_context_chars:
+            context = context[-max_context_chars:]
 
         print(f"[DEBUG] Độ dài context gửi vào model: {len(context)}")
 
@@ -221,13 +285,21 @@ class RAG:
             "stream": False,
         }
 
-        print("[DEBUG] Gửi request tới Ollama...")
-        response = requests.post(
-            url="http://localhost:11434/api/generate", 
-            json=payload
-        ).json()
+        print(f"[DEBUG] Gửi request tới Ollama...")
+        response = self.http.post(url="http://localhost:11434/api/generate", json=payload)
+        response = response.json()
 
         print("[DEBUG] Nhận phản hồi từ model!")
 
-        self.context = response["context"]
-        return response["response"]
+        self.context = response.get("context", self.context)
+        answer = response.get("response") or response.get("output") or ""
+
+        # Save to response cache
+        try:
+            self._response_cache[query] = answer
+            if len(self._response_cache) > self._response_cache_max:
+                self._response_cache.popitem(last=False)
+        except Exception:
+            pass
+
+        return answer

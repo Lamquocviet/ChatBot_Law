@@ -56,6 +56,7 @@ async function initializeBackend() {
       console.error("Backend initialization failed:", data.error);
       // showSystemMessage("⚠ Khởi tạo hệ thống thất bại, vui lòng tải lại trang");
     }
+
   } catch (error) {
     console.error("Error initializing backend:", error);
     // showSystemMessage(
@@ -147,54 +148,52 @@ function handleInputKeyPress(event) {
 /**
  * Add message to chat display
  */
-function addMessageToChat(role, content) {
+function addMessageToChat(role, content, save = true) {
   const chatArea = document.getElementById("chatArea");
 
-  // Remove welcome container if it exists
   const welcomeContainer = chatArea.querySelector(".welcome-container");
   if (welcomeContainer) {
     welcomeContainer.remove();
   }
 
-  // Create message element
   const messageEl = document.createElement("div");
   messageEl.className = `message message-${role}`;
 
-  // Create content wrapper
   const contentEl = document.createElement("div");
   contentEl.className = "message-content";
 
-  // Format content based on role
   if (role === "user") {
     contentEl.textContent = content;
   } else if (role === "error") {
     contentEl.innerHTML = content;
     contentEl.style.color = "#ff4444";
   } else if (role === "assistant") {
-    // Parse markdown and code blocks
     contentEl.innerHTML = formatMessageContent(content);
-  } else {
-    contentEl.innerHTML = content;
   }
 
   messageEl.appendChild(contentEl);
   chatArea.appendChild(messageEl);
 
-  // Scroll to bottom
   setTimeout(() => {
     chatArea.scrollTop = chatArea.scrollHeight;
   }, 100);
 
-  // Store message in current session
-  if (!chatSessions.has(currentChatId)) {
-    chatSessions.set(currentChatId, []);
+  // ✅ CHỈ LƯU KHI CẦN
+  if (save) {
+    if (!chatSessions.has(currentChatId)) {
+      chatSessions.set(currentChatId, []);
+    }
+
+   const session = chatSessions.get(currentChatId) || [];
+session.push({
+  role,
+  content,
+  timestamp: new Date().toISOString(),
+});
+chatSessions.set(currentChatId, session);
   }
-  chatSessions.get(currentChatId).push({
-    role: role,
-    content: content,
-    timestamp: new Date().toISOString(),
-  });
 }
+
 
 /**
  * Format message content with markdown and code highlighting
@@ -379,10 +378,12 @@ function loadChatHistory() {
         chatSessions.set(session.id, session.messages);
       });
 
-      // Restore current chat
+      // Restore current chat but DO NOT auto-open it. This preserves
+      // the welcome view when the page is first loaded. Users can
+      // manually open a session from the history list.
       if (history.currentChatId && chatSessions.has(history.currentChatId)) {
         currentChatId = history.currentChatId;
-        loadChatSession(currentChatId);
+        // Intentionally do not call loadChatSession(currentChatId);
       }
     }
   } catch (error) {
@@ -398,6 +399,7 @@ function loadChatHistory() {
  * Load a specific chat session
  */
 function loadChatSession(chatId) {
+
   if (!chatSessions.has(chatId)) {
     return;
   }
@@ -434,6 +436,7 @@ function loadChatSession(chatId) {
   chatArea.scrollTop = chatArea.scrollHeight;
   updateChatHistoryUI();
 }
+
 /**
  * Update chat history UI
  */
