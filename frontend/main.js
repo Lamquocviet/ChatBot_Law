@@ -1,7 +1,4 @@
-/**
- * Frontend API Client and Chat Logic
- * Handles communication between UI and backend API
- */
+
 
 // Configuration
 // Use 127.0.0.1 to avoid IPv6/localhost resolution issues in some environments
@@ -54,16 +51,16 @@ async function initializeBackend() {
 
     if (data.status === "success") {
       console.log("Backend RAG system initialized successfully");
-      showSystemMessage("✓ Hệ thống đã sẵn sàng");
+      // showSystemMessage("✓ Hệ thống đã sẵn sàng");
     } else {
       console.error("Backend initialization failed:", data.error);
-      showSystemMessage("⚠ Khởi tạo hệ thống thất bại, vui lòng tải lại trang");
+      // showSystemMessage("⚠ Khởi tạo hệ thống thất bại, vui lòng tải lại trang");
     }
   } catch (error) {
     console.error("Error initializing backend:", error);
-    showSystemMessage(
-      "⚠ Không thể kết nối đến máy chủ, hãy đảm bảo backend đang chạy"
-    );
+    // showSystemMessage(
+    //   "⚠ Không thể kết nối đến máy chủ, hãy đảm bảo backend đang chạy"
+    // );
   }
 }
 
@@ -404,24 +401,39 @@ function loadChatSession(chatId) {
   if (!chatSessions.has(chatId)) {
     return;
   }
-
   currentChatId = chatId;
   const chatArea = document.getElementById("chatArea");
-  chatArea.innerHTML = "";
-
+  chatArea.innerHTML = "";  // Xóa sạch UI cũ
   const messages = chatSessions.get(chatId);
-
   if (messages.length === 0) {
     newChat();
-  } else {
-    messages.forEach((msg) => {
-      addMessageToChat(msg.role, msg.content);
-    });
+    return;
   }
-
+  
+  messages.forEach((msg) => {
+    const messageEl = document.createElement("div");
+    messageEl.className = `message message-${msg.role}`;
+    const contentEl = document.createElement("div");
+    contentEl.className = "message-content";
+    
+    if (msg.role === "user") {
+      contentEl.textContent = msg.content;
+    } else if (msg.role === "error") {
+      contentEl.innerHTML = msg.content;
+      contentEl.style.color = "#ff4444";
+    } else if (msg.role === "assistant") {
+      contentEl.innerHTML = formatMessageContent(msg.content);
+    } else {
+      contentEl.innerHTML = msg.content;
+    }
+    messageEl.appendChild(contentEl);
+    chatArea.appendChild(messageEl);
+  });
+  
+  // Scroll xuống cuối
+  chatArea.scrollTop = chatArea.scrollHeight;
   updateChatHistoryUI();
 }
-
 /**
  * Update chat history UI
  */

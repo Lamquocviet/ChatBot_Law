@@ -747,3 +747,60 @@ body.dark-mode .input-area {
   background-color: var(--bg-dark);
   border-top-color: var(--border-dark);
 }
+/* Chat area */
+.chat-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  background: var(--bg-color, #f7f7f8);
+}
+
+/* Message wrapper */
+.message {
+  display: flex;
+  margin-bottom: 14px;
+}
+
+/* User message (bên phải) */
+.message-user {
+  justify-content: flex-end;
+}
+
+.message-user .message-content {
+  background: var(--primary-color);
+  color: white;
+  border-radius: 18px 18px 4px 18px;
+  padding: 10px 14px;
+  max-width: 70%;
+  word-wrap: break-word;
+}
+
+/* Assistant message (bên trái) */
+.message-assistant {
+  justify-content: flex-start;
+}
+
+.message-assistant .message-content {
+  background: #e5e7eb;
+  color: #111;
+  border-radius: 18px 18px 18px 4px;
+  padding: 10px 14px;
+  max-width: 70%;
+  word-wrap: break-word;
+}
+
+/* Error */
+.message-error .message-content {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* System message */
+.message-system {
+  justify-content: center;
+}
+
+.message-system .message-content {
+  font-size: 13px;
+  color: #666;
+}
