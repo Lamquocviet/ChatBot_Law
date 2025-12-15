@@ -67,45 +67,99 @@ class RAG:
                     self._law_text = f.read().lower()
             except Exception:
                 self._law_text = None
+        # Load QA pairs
+        qa_path = os.path.join(self.data_folder, "qa.txt")
+        self._qa_pairs = []
+        if os.path.exists(qa_path):
+            try:
+                with open(qa_path, "r", encoding="utf-8") as f:
+                    lines = f.read().splitlines()
+
+                q, a = None, None
+                for line in lines:
+                    if line.startswith("Q:"):
+                        q = line[2:].strip()
+                    elif line.startswith("A:") and q:
+                        a = line[2:].strip()
+                        self._qa_pairs.append((q, a))
+                        q, a = None, None
+            except Exception:
+                self._qa_pairs = []
+        #load concepts
+        # Load concepts (K:)
+        concepts_path = os.path.join(self.data_folder, "concepts.txt")
+        self._concepts = {}
+
+        if os.path.exists(concepts_path):
+            try:
+                with open(concepts_path, "r", encoding="utf-8") as f:
+                    blocks = f.read().split("\n\n")
+
+                for block in blocks:
+                    lines = block.strip().splitlines()
+                    if len(lines) >= 2 and lines[0].lower().startswith("k:"):
+                        key = lines[0][2:].strip().lower()
+                        value = " ".join(lines[1:]).strip()
+                        self._concepts[key] = value
+            except Exception:
+                self._concepts = {}
+
+        
 
 
     # ======================
     #    TÌM ĐIỀU LUẬT RAW
     # ======================
     def search_raw_article(self, query):
+        q_norm = query.lower().strip()
+        # ======================
+        # 0. ƯU TIÊN ĐỊNH NGHĨA (K:)
+        # ======================
+        if q_norm.startswith("k:"):
+            term = q_norm[2:].strip()
+            for key, value in self._concepts.items():
+                if term in key:
+                    print("[DEBUG] Trả lời từ concepts.txt")
+                    return value
+            return "Không tìm thấy định nghĩa phù hợp trong Luật BHYT."
+        # ======================
+        # 1. ƯU TIÊN Q&A
+        # ======================
+        if q_norm.startswith("q:"):
+            q_norm = q_norm[2:].strip()
+
+        for q, a in self._qa_pairs:
+            if q.lower().strip() == q_norm:
+                print("[DEBUG] Trả lời từ QA.txt (không RAG)")
+                return a
+
+        # ======================
+        # 2. TÌM ĐIỀU LUẬT RAW
+        # ======================
         print("[DEBUG] Kiểm tra yêu cầu có chứa 'Điều X' hay không...")
 
-        match = re.search(r"điều\s+(\d+)", query.lower())
+        match = re.search(r"điều\s+(\d+)", q_norm)
         if not match:
-            print("[DEBUG] Không tìm thấy pattern Điều X")
             return None
 
         article_number = int(match.group(1))
-        target = f"điều {article_number}".lower()
-        print(f"[DEBUG] Cần tìm: {target}")
+        target = f"điều {article_number}"
 
-        # Use cached law text if available
-        if self._law_text:
-            full_text = self._law_text
-        else:
-            law_path = os.path.join(self.data_folder, "law.txt")
-            if not os.path.exists(law_path):
-                print("[DEBUG] KHÔNG TÌM THẤY FILE law.txt!!!")
-                return None
-            with open(law_path, "r", encoding="utf-8") as f:
-                full_text = f.read().lower()
+        full_text = self._law_text
+        if not full_text:
+            return None
 
         idx = full_text.find(target)
         if idx == -1:
-            print("[DEBUG] Không tìm thấy Điều trong văn bản")
             return None
 
-        # tìm Điều tiếp theo
         next_match = re.search(rf"điều\s+{article_number + 1}\b", full_text[idx:])
         end = idx + next_match.start() if next_match else idx + 2500
 
-        print("[DEBUG] Tìm thấy Điều, trả về raw text (không qua RAG)")
+        print("[DEBUG] Trả về Điều luật raw")
         return full_text[idx:end].strip()
+
+        
 
 
     # ======================
@@ -272,8 +326,8 @@ class RAG:
         print(f"[DEBUG] Độ dài context gửi vào model: {len(context)}")
 
         input_text = f"""
-            Bạn là chuyên gia rất am hiểu về Luật BHYT. Dựa trên Ngữ cảnh được cung cấp bên dưới, trả lời câu hỏi chính xác và ngắn gọn.
-            BẮT BUỘC phải trích dẫn điều luật chính xác nếu có trong ngữ cảnh.
+            Bạn là chuyên gia rất am hiểu về Luật BHYT. Dựa trên Ngữ cảnh được cung cấp bên dưới, trả lời câu hỏi một cách thật chính xác và ngắn gọn.
+            BẮT BUỘC phải trích dẫn điều luật chính xác nếu có trong ngữ cảnh (Không được sai sót về số điều luật). 
             Ngữ cảnh: {context}
             Câu hỏi: {query}
         """

@@ -1,8 +1,8 @@
 $ErrorActionPreference = 'Stop'
 $wd = New-Object -ComObject Word.Application
 $wd.Visible = $false
-$path = 'C:\Users\admin\Desktop\RAGBOX\searching\crawler\22_VBHN-VPQH_651354.doc'
-$out = 'C:\Users\admin\Desktop\RAGBOX\searching\crawler\22_VBHN-VPQH_651354.txt'
+$path = 'C:\Users\admin\Desktop\RAGBOX\searching\22_VBHN-VPQH_651354.doc'
+$out = 'C:\Users\admin\Desktop\RAGBOX\searching\22_VBHN-VPQH_651354.txt'
 $doc = $wd.Documents.Open($path)
 $text = $doc.Content.Text
 $doc.Close()
