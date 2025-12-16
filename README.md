@@ -1,4 +1,5 @@
 
+-- 🚀 ***ChatBot RAG - Trợ lý pháp lý Luật Bảo hiểm y tế***
 
 - **Chatbot thông minh**: Trả lời các câu hỏi về Luật Bảo hiểm y tế
 - **RAG (Retrieval-Augmented Generation)**: Kết hợp tìm kiếm vector và trí tuệ nhân tạo
