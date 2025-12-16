@@ -12,6 +12,28 @@ const DARK_MODE_STORAGE_KEY = "dark_mode_enabled";
 let currentChatId = null;
 let chatSessions = new Map();
 let isLoading = false;
+let currentAbortController = null;
+
+function updateSendStopButton() {
+  const btn = document.getElementById("send-stop-btn");
+  const iconSpan = document.getElementById("send-stop-icon");
+  if (!btn || !iconSpan) return;
+  if (isLoading) {
+    btn.title = "Dừng";
+    iconSpan.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>`;
+  } else {
+    btn.title = "Gửi";
+    iconSpan.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>`;
+  }
+}
+
+function handleSendOrStop() {
+  if (isLoading) {
+    stopAsking();
+  } else {
+    askQuestion();
+  }
+}
 let isDarkMode = localStorage.getItem(DARK_MODE_STORAGE_KEY) === "true";
 
 /**
@@ -73,7 +95,6 @@ async function askQuestion(question = null) {
   if (!question) {
     const questionInput = document.getElementById("question");
     question = questionInput.value.trim();
-
     if (!question) {
       return;
     }
@@ -85,18 +106,18 @@ async function askQuestion(question = null) {
     return;
   }
 
+
   isLoading = true;
+  currentAbortController = new AbortController();
+  updateSendStopButton();
 
   try {
     // Clear input
     document.getElementById("question").value = "";
-
     // Add user message to chat
     addMessageToChat("user", question);
-
     // Show loading indicator
     showLoadingIndicator();
-
     // Send request to backend
     const response = await fetch(`${API_BASE_URL}/chat`, {
       method: "POST",
@@ -106,17 +127,14 @@ async function askQuestion(question = null) {
       body: JSON.stringify({
         question: question,
       }),
+      signal: currentAbortController.signal,
     });
-
     const data = await response.json();
-
     // Remove loading indicator
     hideLoadingIndicator();
-
     if (data.status === "success") {
       // Add AI response to chat
       addMessageToChat("assistant", data.answer);
-
       // Save chat history
       saveChatHistory();
     } else {
@@ -126,12 +144,24 @@ async function askQuestion(question = null) {
       addMessageToChat("error", `❌ Lỗi: ${errorMsg}`);
     }
   } catch (error) {
-    console.error("Error sending question:", error);
     hideLoadingIndicator();
-    addMessageToChat("error", `❌ Lỗi kết nối: ${error.message}`);
+    if (error.name === "AbortError") {
+      addMessageToChat("error", "⏹ Đã dừng yêu cầu.");
+    } else {
+      console.error("Error sending question:", error);
+      addMessageToChat("error", `❌ Lỗi kết nối: ${error.message}`);
+    }
   } finally {
     isLoading = false;
+    updateSendStopButton();
+    currentAbortController = null;
     document.getElementById("question").focus();
+  }
+}
+
+function stopAsking() {
+  if (isLoading && currentAbortController) {
+    currentAbortController.abort();
   }
 }
 
@@ -533,3 +563,4 @@ window.newChat = newChat;
 window.toggleDarkMode = toggleDarkMode;
 window.handleInputKeyPress = handleInputKeyPress;
 window.deleteChatSession = deleteChatSession;
+window.handleSendOrStop = handleSendOrStop;
