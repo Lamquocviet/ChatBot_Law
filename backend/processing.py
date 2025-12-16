@@ -10,6 +10,7 @@ from collections import OrderedDict
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 import warnings
+from rapidfuzz import fuzz
 warnings.filterwarnings('ignore')
 
 load_dotenv()
@@ -128,10 +129,18 @@ class RAG:
         if q_norm.startswith("q:"):
             q_norm = q_norm[2:].strip()
 
+        best_score = 0
+        best_answer = None
         for q, a in self._qa_pairs:
-            if q.lower().strip() == q_norm:
-                print("[DEBUG] Trả lời từ QA.txt (không RAG)")
-                return a
+            score = fuzz.ratio(q.lower().strip(), q_norm)
+            if score > best_score:
+                best_score = score
+                best_answer = a
+
+        # Threshold có thể điều chỉnh, ví dụ 80%
+        if best_score >= 80:
+            print(f"[DEBUG] Trả lời từ QA.txt bằng fuzzy match (score={best_score})")
+            return best_answer
 
         # ======================
         # 2. TÌM ĐIỀU LUẬT RAW
