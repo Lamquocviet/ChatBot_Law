@@ -24,9 +24,6 @@ RAG/
 │   │   └── luatbhyt/                     ← Law documents
 │   │       ├── law.txt                   ← Main law document
 │   │       └── *.txt                     ← Additional documents
-│   ├── demuc/                            ← HTML documents
-│   │   ├── *.html                        ← Document files
-│   │   └── ...
 │   └── searching/                        ← Search functionality
 │       └── crawler/                      ← Web crawler
 │
